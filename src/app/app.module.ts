@@ -1,3 +1,5 @@
+import { AppRoutingProviders, AppRouting } from './app.routing';
+import { MedicineModule } from './medicine/medicine.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -12,9 +14,11 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    AppRouting,
+    MedicineModule
   ],
-  providers: [],
+  providers: [AppRoutingProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,12 @@
+<h3>
+  Medicamentos
+</h3>
+<div [@contentState]="active" *ngIf="medicines">
+  <ul class="list-group" *ngFor="let medicine of medicines">
+    <li class="list-group-item">{{medicine.Id}} - {{medicine.Name}}</li>
+  </ul>
+</div>
+
+<div class="alert alert-warning" [@contentState]="active" *ngIf="noContent">
+  <strong>Atención!</strong> No se encontrarón medicamentos.
+</div>
