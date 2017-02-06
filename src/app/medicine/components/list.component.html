@@ -2,11 +2,60 @@
   Medicamentos
 </h3>
 <div [@contentState]="active" *ngIf="medicines">
-  <ul class="list-group" *ngFor="let medicine of medicines">
-    <li class="list-group-item">{{medicine.Id}} - {{medicine.Name}}</li>
-  </ul>
+  <button type="button" class="btn btn-primary" (click)="newMedicine()">New</button>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" *ngIf="medicineSelected">
+      <form #form="ngForm">
+        <legend>Manage medicine</legend>
+        <div class="form-group" *ngIf="medicineSelected.Id && medicineSelected.Id>0">
+          <label for="name">Id</label>
+          <label for="name" class="form-control">{{medicineSelected.Id}}</label>
+        </div>
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input [(ngModel)]="medicineSelected.Name" type="text" class="form-control" id="name" name="name" placeholder="Enter the medicine name"
+            #name required maxlength="100">
+        </div>
+
+        <div class="alert alert-danger" *ngIf="name.errors && name.dirty">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <strong>Error!</strong> The field "Name" is required.
+        </div>
+
+        <button type="button" class="btn btn-secondary" (click)="medicineSelected = null">Cancel</button>
+        <button type="button" class="btn btn-primary" [disabled]="!form.form.valid" (click)="save()">Save</button>
+      </form>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md-12 col-lg-12" [ngClass]="{'col-md-6 col-lg-6': medicineSelected,'col-md-12 col-lg-12': !medicineSelected }">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr class=table-header>
+              <td>Id</td>
+              <td>Name</td>
+              <td></td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let medicine of medicines">
+              <td>{{medicine.Id}}</td>
+              <td>{{medicine.Name}}</td>
+              <td>
+                <a role="button" (click)="medicineSelected = medicine"><img src="assets/images/edit.png" class="image-responsive img-action" alt="Edit" title="Edit"></a>
+                <a (click)="delete(medicine.Id)" role="button"><img src="assets/images/trash.png" class="image-responsive img-action" alt="Delete" title="Delete"></a>
+              </td>
+            </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="alert alert-warning" [@contentState]="active" *ngIf="!medicines || medicines.length <= 0">
+  <strong>Warning!</strong> No medicines found.
 </div>
 
-<div class="alert alert-warning" [@contentState]="active" *ngIf="noContent">
-  <strong>Atención!</strong> No se encontrarón medicamentos.
+<div class="loading" *ngIf="showLoading">
+  <div class="loading-container">
+<img src="assets/images/loading.gif" alt="Loading" title="Loading">
+</div>
 </div>

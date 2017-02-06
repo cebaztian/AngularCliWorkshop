@@ -37,26 +37,63 @@ export class MedicineListComponent implements OnInit {
 
   public medicines: Medicine[];
   private medicineService: IMedicineService;
-  public noContent: boolean = false;
-
+  public medicineSelected: Medicine = null;
+  public showLoading: boolean = false;
   constructor( @Inject('IMedicineService') medicineService: IMedicineService) {
     this.medicineService = medicineService;
   }
 
   ngOnInit() {
+    this.showLoading = true;
     this.getAll();
   }
 
 
-  getAll() {
+  getAll(): void {
     this.medicineService.getAll()
-      .then(medicines => this.medicines = medicines)
       .then(medicines => {
-        this.noContent = (medicines == null);
+        this.medicines = medicines;
+        this.showLoading = false;
       })
       .catch((e) => {
-        this.noContent = true;
+        this.medicines = null;
+        this.showLoading = false;
       });
+  }
+
+  delete(id: number): void {
+    this.showLoading = true;
+    this.medicineService.delete(id)
+      .then(() => {
+        this.getAll();
+        if (this.medicineSelected && id === this.medicineSelected.Id) {
+          this.medicineSelected = null;
+        }
+      }).catch((e) => {
+        this.showLoading = true;
+        this.medicineSelected = null;
+        console.log(e);
+      });
+
+  }
+
+  newMedicine(): void {
+    this.medicineSelected = new Medicine();
+  }
+
+  save(): void {
+    this.showLoading = true;
+    this.medicineService.save(this.medicineSelected)
+      .then(medicine => {
+        this.getAll();
+        this.medicineSelected = null;
+      })
+      .catch((e) => {
+        this.medicineSelected = null;
+        this.showLoading = true;
+        console.log(e);
+      });
+
   }
 
 }

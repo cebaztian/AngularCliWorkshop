@@ -1,0 +1,32 @@
+.img-action{
+    width: 30px;
+}
+
+.table-header{
+    background-color: #006337;
+    color: white;
+    font-weight: 800;
+}
+
+.table-responsive{
+    max-height: 500px;
+}
+
+.loading{
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    background-color: white;
+    opacity: 0.5;
+    overflow-x: hidden;
+    align-content: center;
+    vertical-align: center;
+}
+
+.loading-container{
+    margin: auto;
+    width: 20%;
+}

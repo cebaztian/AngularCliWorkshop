@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+.container-fluid{
+    margin: auto;
+    width: 70%;
+}
+
+h3{
+    color: #ED6528;
+}
+
+h1{
+    color: #006337;
+}
