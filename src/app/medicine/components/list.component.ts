@@ -36,6 +36,7 @@ import { IMedicineService } from '../shared/services/medicine.contract';
 export class MedicineListComponent implements OnInit {
 
   public medicines: Medicine[];
+  public noFilterMedicines: Medicine[];
   private medicineService: IMedicineService;
   public medicineSelected: Medicine = null;
   public showLoading: boolean = false;
@@ -48,11 +49,15 @@ export class MedicineListComponent implements OnInit {
     this.getAll();
   }
 
+  set filterName(value: string) {
+    this.filter(value);
+  }
 
   getAll(): void {
     this.medicineService.getAll()
       .then(medicines => {
         this.medicines = medicines;
+        this.noFilterMedicines = medicines;
         this.showLoading = false;
       })
       .catch((e) => {
@@ -94,6 +99,17 @@ export class MedicineListComponent implements OnInit {
         console.log(e);
       });
 
+  }
+
+  filter(filter: string): void {
+    if (filter.length > 0) {
+      filter = filter.toLowerCase();
+      this.medicines = this.noFilterMedicines.filter(medicine => 
+        medicine.Name.toLowerCase().includes(filter)
+      );
+    } else {
+      this.medicines = this.noFilterMedicines;
+    }
   }
 
 }

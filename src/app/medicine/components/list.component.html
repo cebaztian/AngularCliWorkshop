@@ -2,7 +2,13 @@
   Medicamentos
 </h3>
 <div [@contentState]="active" *ngIf="medicines">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input [(ngModel)]="filterName" ng2 type="text" class="form-control" id="filterName" name="filterName" placeholder="Filter by medicine name"
+      maxlength="100">
+  </div>
   <button type="button" class="btn btn-primary" (click)="newMedicine()">New</button>
+  
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" *ngIf="medicineSelected">
       <form #form="ngForm">
