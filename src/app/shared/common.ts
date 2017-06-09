@@ -4,8 +4,8 @@ import { NgForm } from '@angular/forms';
 export class Common {
     static anyControlInvalidAndTouched(ngform: NgForm): Boolean {
         let show = false;
-        for (let key in ngform.form.controls) {
-            let control = ngform.form.controls[key];
+        for (const key in ngform.form.controls) {
+            const control = ngform.form.controls[key];
             show = (control.invalid && control.touched) || show;
             if (show) {
                 break;
@@ -29,9 +29,9 @@ export class Common {
     }
 
     static format(args: string[]) {
-        var s = args[0];
-        for (var i = 0; i < args.length - 1; i++) {
-            var reg = new RegExp("\\{" + i + "\\}", "gm");
+        let s = args[0];
+        for (let i = 0; i < args.length - 1; i++) {
+            const reg = new RegExp('\\{' + i + '\\}', 'gm');
             s = s.replace(reg, args[i + 1]);
         }
         return s;

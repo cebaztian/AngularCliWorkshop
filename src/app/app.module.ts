@@ -1,3 +1,4 @@
+import { LoggerService } from './shared/services/logger.service';
 import { AppRoutingProviders, AppRouting } from './app.routing';
 import { MedicineModule } from './medicine/medicine.module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -18,7 +19,10 @@ import { AppComponent } from './app.component';
     AppRouting,
     MedicineModule
   ],
-  providers: [AppRoutingProviders],
+  providers: [
+    AppRoutingProviders
+    , { provide: 'ILoggerService', useClass: LoggerService }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

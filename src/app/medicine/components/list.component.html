@@ -1,14 +1,14 @@
 <h3>
-  Medicamentos
+  Medicines
 </h3>
-<div [@contentState]="active" *ngIf="medicines">
+<div *ngIf="medicines">
   <div class="form-group">
     <label for="name">Name</label>
     <input [(ngModel)]="filterName" ng2 type="text" class="form-control" id="filterName" name="filterName" placeholder="Filter by medicine name"
       maxlength="100">
   </div>
   <button type="button" class="btn btn-primary" (click)="newMedicine()">New</button>
-  
+
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" *ngIf="medicineSelected">
       <form #form="ngForm">
@@ -56,12 +56,12 @@
     </div>
   </div>
 </div>
-<div class="alert alert-warning" [@contentState]="active" *ngIf="!medicines || medicines.length <= 0">
+<div class="alert alert-warning" *ngIf="!medicines || medicines.length <= 0">
   <strong>Warning!</strong> No medicines found.
 </div>
 
 <div class="loading" *ngIf="showLoading">
   <div class="loading-container">
-<img src="assets/images/loading.gif" alt="Loading" title="Loading">
-</div>
+    <img src="assets/images/loading.gif" alt="Loading" title="Loading">
+  </div>
 </div>

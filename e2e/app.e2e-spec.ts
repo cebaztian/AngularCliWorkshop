@@ -1,14 +1,14 @@
-import { WorkshopPage } from './app.po';
+import { WPage } from './app.po';
 
-describe('workshop App', function() {
-  let page: WorkshopPage;
+describe('w App', () => {
+  let page: WPage;
 
   beforeEach(() => {
-    page = new WorkshopPage();
+    page = new WPage();
   });
 
-  it('should display message saying app works', () => {
+  it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
+    expect(page.getParagraphText()).toEqual('Welcome to app!!');
   });
 });

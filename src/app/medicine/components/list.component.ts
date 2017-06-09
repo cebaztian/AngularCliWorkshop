@@ -1,3 +1,4 @@
+import { ILoggerService } from './../../shared/services/logger.service.contract';
 import { Common } from './../../shared/common';
 import { Component, OnInit, Inject, trigger, state, style, transition, animate } from '@angular/core';
 import { Medicine } from '../shared/models/medicine.model';
@@ -7,41 +8,22 @@ import { IMedicineService } from '../shared/services/medicine.contract';
 @Component({
   selector: 'app-medicine',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.css'],
-  animations: [
-    trigger('elementState', [
-      state('inactive', style({
-        backgroundColor: '#eee',
-        transform: 'scale(1)'
-      })),
-      state('active', style({
-        backgroundColor: '#cfd8dc',
-        transform: 'scale(1.2)'
-      })),
-      transition('inactive => active', animate('100ms ease-in')),
-      transition('active => inactive', animate('100ms ease-out'))
-    ]),
-    trigger('contentState', [
-      state('active', style({ transform: 'translateY(0)' })),
-      transition('void => *', [
-        style({ transform: 'translateY(-100%)' }),
-        animate(100)
-      ]),
-      transition('* => void', [
-        animate(100, style({ transform: 'translateY(100%)' }))
-      ])
-    ])
-  ]
+  styleUrls: ['./list.component.css']
 })
 export class MedicineListComponent implements OnInit {
 
   public medicines: Medicine[];
   public noFilterMedicines: Medicine[];
   private medicineService: IMedicineService;
+  private loggerService: ILoggerService;
+
   public medicineSelected: Medicine = null;
-  public showLoading: boolean = false;
-  constructor( @Inject('IMedicineService') medicineService: IMedicineService) {
+  public showLoading = false;
+
+  constructor( @Inject('IMedicineService') medicineService: IMedicineService
+    , @Inject('ILoggerService') loggerService: ILoggerService) {
     this.medicineService = medicineService;
+    this.loggerService = loggerService;
   }
 
   ngOnInit() {
@@ -63,6 +45,7 @@ export class MedicineListComponent implements OnInit {
       .catch((e) => {
         this.medicines = null;
         this.showLoading = false;
+        this.loggerService.log(e);
       });
   }
 
@@ -77,7 +60,7 @@ export class MedicineListComponent implements OnInit {
       }).catch((e) => {
         this.showLoading = true;
         this.medicineSelected = null;
-        console.log(e);
+        this.loggerService.log(e);
       });
 
   }
@@ -96,7 +79,7 @@ export class MedicineListComponent implements OnInit {
       .catch((e) => {
         this.medicineSelected = null;
         this.showLoading = true;
-        console.log(e);
+        this.loggerService.log(e);
       });
 
   }
@@ -104,7 +87,7 @@ export class MedicineListComponent implements OnInit {
   filter(filter: string): void {
     if (filter.length > 0) {
       filter = filter.toLowerCase();
-      this.medicines = this.noFilterMedicines.filter(medicine => 
+      this.medicines = this.noFilterMedicines.filter(medicine =>
         medicine.Name.toLowerCase().includes(filter)
       );
     } else {
